@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>もちもちリンク | Mochi Mingle</title>
+<meta name="description" content="和菓子モチーフの3マッチパズル。スマホでもPCでも遊べます。">
+<meta name="theme-color" content="#ffe9d6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#ff8fb1"/>
+      <stop offset="25%"  stop-color="#ffe066"/>
+      <stop offset="50%"  stop-color="#8fd36b"/>
+      <stop offset="75%"  stop-color="#6fc4f2"/>
+      <stop offset="100%" stop-color="#b48ce8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 0 さくら -->
+  <symbol id="p0" viewBox="0 0 100 100">
+    <g fill="var(--pc)">
+      <ellipse cx="50" cy="24" rx="17" ry="21"/>
+      <ellipse cx="50" cy="24" rx="17" ry="21" transform="rotate(72 50 50)"/>
+      <ellipse cx="50" cy="24" rx="17" ry="21" transform="rotate(144 50 50)"/>
+      <ellipse cx="50" cy="24" rx="17" ry="21" transform="rotate(216 50 50)"/>
+      <ellipse cx="50" cy="24" rx="17" ry="21" transform="rotate(288 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="14" fill="var(--pd)"/>
+    <ellipse cx="42" cy="26" rx="7" ry="4" fill="#fff" opacity=".45" transform="rotate(-25 42 26)"/>
+  </symbol>
+
+  <!-- 1 まっちゃ -->
+  <symbol id="p1" viewBox="0 0 100 100">
+    <rect x="14" y="14" width="72" height="72" rx="24" fill="var(--pc)"/>
+    <path d="M50 14c14 0 26 7 32 18-10 2-20 0-26-6-4-4-6-8-6-12z" fill="var(--pd)"/>
+    <rect x="26" y="58" width="48" height="16" rx="8" fill="var(--pd)" opacity=".45"/>
+    <ellipse cx="36" cy="32" rx="10" ry="6" fill="#fff" opacity=".45" transform="rotate(-20 36 32)"/>
+  </symbol>
+
+  <!-- 2 きなこ -->
+  <symbol id="p2" viewBox="0 0 100 100">
+    <path d="M50 10 84 30v40L50 90 16 70V30z" fill="var(--pc)"/>
+    <path d="M50 10 84 30 50 50 16 30z" fill="var(--pd)" opacity=".35"/>
+    <circle cx="36" cy="60" r="4" fill="var(--pd)"/>
+    <circle cx="58" cy="68" r="3" fill="var(--pd)"/>
+    <circle cx="62" cy="52" r="3.5" fill="var(--pd)"/>
+    <ellipse cx="38" cy="28" rx="9" ry="5" fill="#fff" opacity=".4" transform="rotate(-25 38 28)"/>
+  </symbol>
+
+  <!-- 3 ラムネ -->
+  <symbol id="p3" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="38" fill="var(--pc)"/>
+    <circle cx="50" cy="50" r="38" fill="none" stroke="var(--pd)" stroke-width="5"/>
+    <circle cx="62" cy="38" r="7" fill="#fff" opacity=".7"/>
+    <circle cx="40" cy="62" r="5" fill="#fff" opacity=".5"/>
+    <circle cx="60" cy="63" r="3.5" fill="#fff" opacity=".45"/>
+    <ellipse cx="36" cy="34" rx="10" ry="6" fill="#fff" opacity=".5" transform="rotate(-25 36 34)"/>
+  </symbol>
+
+  <!-- 4 ゆず -->
+  <symbol id="p4" viewBox="0 0 100 100">
+    <path d="M50 10c18 18 34 34 34 48a34 34 0 0 1-68 0c0-14 16-30 34-48z" fill="var(--pc)"/>
+    <path d="M50 44a26 26 0 0 1 24 16 26 26 0 0 1-48 0 26 26 0 0 1 24-16z" fill="var(--pd)" opacity=".4"/>
+    <ellipse cx="38" cy="40" rx="7" ry="11" fill="#fff" opacity=".45" transform="rotate(20 38 40)"/>
+  </symbol>
+
+  <!-- 5 ぶどう -->
+  <symbol id="p5" viewBox="0 0 100 100">
+    <path d="M50 8 90 50 50 92 10 50z" fill="var(--pc)"/>
+    <path d="M50 8 90 50 50 50z" fill="#fff" opacity=".18"/>
+    <path d="M50 30 70 50 50 70 30 50z" fill="var(--pd)" opacity=".5"/>
+    <ellipse cx="36" cy="38" rx="9" ry="5" fill="#fff" opacity=".4" transform="rotate(-45 36 38)"/>
+  </symbol>
+
+  <!-- ほしだいふく -->
+  <symbol id="pstar" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="40" fill="url(#rainbow)"/>
+    <path d="M50 18l9.5 20.5L82 41l-16.5 15.5L70 79 50 68 30 79l4.5-22.5L18 41l22.5-2.5z" fill="#fff" opacity=".92"/>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="4" opacity=".55"/>
+  </symbol>
+
+  <symbol id="icecrack" viewBox="0 0 100 100">
+    <path d="M50 4v30M50 66v30M4 50h30M66 50h30M22 22l18 18M78 22L60 40M22 78l18-18M78 78L60 60"
+          stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8" fill="none"/>
+  </symbol>
+</svg>
+
+<div id="app">
+
+  <!-- ===================================================== stage select -->
+  <section id="home" class="screen is-active">
+    <header class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 100 100" style="--pc:#ff8fb1;--pd:#d9618a"><use href="#p0"/></svg>
+        <svg viewBox="0 0 100 100" style="--pc:#8fd36b;--pd:#5aa63f"><use href="#p1"/></svg>
+        <svg viewBox="0 0 100 100" style="--pc:#6fc4f2;--pd:#3b94c9"><use href="#p3"/></svg>
+      </div>
+      <h1>もちもち<em>リンク</em></h1>
+      <p class="tagline">Mochi&nbsp;Mingle — 和菓子でそろえる3マッチパズル</p>
+    </header>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>ステージ</h2>
+        <p class="stars-total"><span id="totalStars">0</span><span class="slash">/</span><span id="maxStars">36</span> ★</p>
+      </div>
+      <div id="levelGrid" class="level-grid"></div>
+    </div>
+
+    <nav class="home-actions">
+      <button id="btnHow" class="btn ghost" type="button">あそびかた</button>
+      <button id="btnSound" class="btn ghost" type="button" aria-pressed="true">♪ 音 ON</button>
+      <button id="btnReset" class="btn ghost quiet" type="button">記録を消す</button>
+    </nav>
+    <p class="credit">オリジナル作品 / 既存ゲームの素材・名称は使用していません</p>
+  </section>
+
+  <!-- ============================================================= game -->
+  <section id="game" class="screen">
+    <div class="topbar">
+      <button id="btnBack" class="icon-btn" type="button" aria-label="ステージ選択にもどる">←</button>
+      <div class="stage-title">
+        <span class="no">ステージ <b id="stageNo">1</b></span>
+        <span class="nm" id="stageName"></span>
+      </div>
+      <button id="btnRestart" class="icon-btn" type="button" aria-label="このステージをやりなおす">⟳</button>
+    </div>
+
+    <div class="hud">
+      <div class="hud-box moves">
+        <span class="label">のこり手数</span>
+        <strong id="movesLeft">0</strong>
+      </div>
+      <div class="hud-box score">
+        <span class="label">スコア</span>
+        <strong id="score">0</strong>
+      </div>
+    </div>
+
+    <div id="goalList" class="goals" aria-label="目標"></div>
+
+    <div class="board-wrap">
+      <div id="board" class="board" role="application" aria-label="パズル盤面">
+        <div class="layer cells" id="layerCells"></div>
+        <div class="layer tiles" id="layerTiles"></div>
+        <div class="layer fx" id="layerFx"></div>
+      </div>
+      <div id="combo" class="combo" aria-hidden="true"></div>
+    </div>
+
+    <div class="bottombar">
+      <button id="btnHint" class="btn small" type="button">ヒント</button>
+      <p id="stageHint" class="tip"></p>
+    </div>
+  </section>
+</div>
+
+<div id="overlay" class="overlay" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <h2 id="dlgTitle"></h2>
+    <div id="dlgBody"></div>
+    <div id="dlgActions" class="dialog-actions"></div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
