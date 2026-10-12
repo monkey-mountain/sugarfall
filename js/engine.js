@@ -1,5 +1,5 @@
 /*
- * もちもちリンク / Mochi Mingle - game engine
+ * Sugarfall - game engine
  *
  * Pure logic, no DOM. The engine owns the board state and exposes a
  * generator (`resolve`) that mutates the board one phase at a time so the
@@ -9,20 +9,20 @@
 /** Special piece kinds. */
 export const SP = Object.freeze({
   NONE: 0,
-  ROW: 1,    // ながし - clears its row
-  COL: 2,    // たきつぼ - clears its column
-  BLAST: 3,  // ぽんっ - clears a 3x3 area
-  STAR: 4,   // ほしだいふく - clears every piece of one flavour
+  ROW: 1,    // side sparkler - clears its row
+  COL: 2,    // down sparkler - clears its column
+  BLAST: 3,  // bonbon bomb - clears a 3x3 area
+  STAR: 4,   // rainbow drop - clears every candy of one flavour
 });
 
-/** Piece flavours. Index matches the sprite ids in index.html. */
+/** Candy flavours. Index matches the sprite ids in index.html. */
 export const FLAVOURS = Object.freeze([
-  { key: 'sakura', label: 'さくら' },
-  { key: 'matcha', label: 'まっちゃ' },
-  { key: 'kinako', label: 'きなこ' },
-  { key: 'ramune', label: 'ラムネ' },
-  { key: 'yuzu',   label: 'ゆず' },
-  { key: 'budo',   label: 'ぶどう' },
+  { key: 'red',    label: 'Cherry' },
+  { key: 'orange', label: 'Orange' },
+  { key: 'yellow', label: 'Lemon' },
+  { key: 'green',  label: 'Lime' },
+  { key: 'blue',   label: 'Blueberry' },
+  { key: 'purple', label: 'Grape' },
 ]);
 
 let _tid = 1;

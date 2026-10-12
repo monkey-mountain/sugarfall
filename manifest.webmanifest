@@ -1,14 +1,14 @@
 {
-  "name": "もちもちリンク / Mochi Mingle",
-  "short_name": "もちもちリンク",
-  "description": "和菓子モチーフの3マッチパズル。",
-  "lang": "ja",
+  "name": "Sugarfall",
+  "short_name": "Sugarfall",
+  "description": "A sweet match-3 candy puzzle.",
+  "lang": "en",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffe7d2",
-  "theme_color": "#ffe9d6",
+  "background_color": "#3a1a63",
+  "theme_color": "#3a1a63",
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]

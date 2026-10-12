@@ -1,5 +1,5 @@
 /*
- * Screens, rendering and input for もちもちリンク / Mochi Mingle.
+ * Screens, rendering and input for Sugarfall.
  *
  * The engine owns the board state; this module diffs that state against the
  * DOM after every phase, so pieces slide, pop and drop with plain CSS.
@@ -12,7 +12,7 @@ import { sfx } from './audio.js';
 const SVGNS = 'http://www.w3.org/2000/svg';
 const $ = (s) => document.querySelector(s);
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-const STORE = 'mochi-mingle/v1';
+const STORE = 'sugarfall/v1';
 const MAX_STARS = LEVELS.length * 3;
 
 /* ---------------------------------------------------------------- saves */
@@ -73,7 +73,7 @@ class BoardView {
     for (let i = 0; i < engine.cells.length; i++) {
       if (engine.cells[i].wall) { this.cells.push(null); continue; }
       const el = document.createElement('div');
-      el.className = 'cell';
+      el.className = 'cell' + ((engine.row(i) + engine.col(i)) % 2 ? ' odd' : '');
       el.style.setProperty('--r', engine.row(i));
       el.style.setProperty('--c', engine.col(i));
       this.cellsLayer.appendChild(el);
@@ -231,7 +231,7 @@ function dialog({ title, body, actions, dismissable = false }) {
     for (const a of actions) {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'btn' + (a.ghost ? ' ghost' : '');
+      b.className = 'btn' + (a.ghost ? ' blue' : '');
       b.textContent = a.label;
       b.addEventListener('click', () => { close(); resolve(a.value); });
       box.appendChild(b);
@@ -250,31 +250,35 @@ function dialog({ title, body, actions, dismissable = false }) {
   });
 }
 
-const flavourSwatch = (type) =>
-  `<svg class="ic" viewBox="0 0 100 100" style="--pc:var(--f-${FLAVOURS[type].key});--pd:var(--d-${FLAVOURS[type].key})"><use href="#p${type}"/></svg>`;
+const flavourSwatch = (type) => {
+  const k = FLAVOURS[type].key;
+  return `<svg class="ic" viewBox="0 0 100 100" aria-label="${FLAVOURS[type].label}"
+    style="--pc:var(--c-${k});--pd:var(--d-${k});--pl:var(--l-${k})"><use href="#p${type}"/></svg>`;
+};
 
 function howToPlay() {
   return dialog({
-    title: 'あそびかた',
+    title: 'How to play',
     dismissable: true,
     body: `<div class="how">
-      <p>となりどうしの和菓子を入れかえて、たて・よこに<b>3つ以上</b>そろえて消します。手数がなくなる前に目標を達成しましょう。</p>
-      <h3>特殊な和菓子</h3>
-      <div class="row">${flavourSwatch(0)}<span><b>よこに4つ</b>そろえる →「ながし」が <b>よこ一列</b> を一掃</span></div>
-      <div class="row">${flavourSwatch(1)}<span><b>たてに4つ</b>そろえる →「たきつぼ」が <b>たて一列</b> を一掃</span></div>
-      <div class="row">${flavourSwatch(2)}<span><b>L字・T字</b>にそろえる →「ぽんっ」が <b>まわり3×3</b> を爆発</span></div>
-      <div class="row"><svg class="ic" viewBox="0 0 100 100"><use href="#pstar"/></svg><span><b>5つ</b>そろえる →「ほしだいふく」。入れかえた相手と <b>同じ味を全部</b> 消します</span></div>
-      <p>特殊な和菓子どうしを入れかえると、さらに大きく消えます。</p>
-      <h3>さまたげるもの</h3>
-      <div class="row"><i class="ic chip dust"></i><span><b>きなこ</b>：その上で和菓子を消すと払えます（二重のものは2回）</span></div>
-      <div class="row"><i class="ic chip ice"></i><span><b>こおり</b>：中の和菓子は動かせません。巻きこんで消すと割れます</span></div>
-      <h3>操作</h3>
+      <p>Swap two candies side by side to line up <b>three or more</b> of a kind.
+      Hit every goal before you run out of moves.</p>
+      <h3>Special candies</h3>
+      <div class="row">${flavourSwatch(0)}<span>Match <b>4 in a row</b> → <b>Side Sparkler</b>, clears that whole row</span></div>
+      <div class="row">${flavourSwatch(3)}<span>Match <b>4 in a column</b> → <b>Down Sparkler</b>, clears that whole column</span></div>
+      <div class="row">${flavourSwatch(1)}<span>Match in an <b>L or T</b> shape → <b>Bonbon Bomb</b>, blows up 3×3</span></div>
+      <div class="row"><svg class="ic" viewBox="0 0 100 100"><use href="#pstar"/></svg><span>Match <b>5</b> → <b>Rainbow Drop</b>. Swap it with any candy to clear <b>every candy of that colour</b></span></div>
+      <p>Swap two specials together for a much bigger blast — up to clearing the whole board.</p>
+      <h3>In your way</h3>
+      <div class="row"><i class="ic chip dust"></i><span><b>Syrup</b> — clear a candy sitting on it to soak it up. Double syrup takes two.</span></div>
+      <div class="row"><i class="ic chip ice"></i><span><b>Ice</b> — the candy inside can't be moved. Clear it in a match to crack the ice.</span></div>
+      <h3>Controls</h3>
       <ul>
-        <li>スワイプ、または2回タップで入れかえ</li>
-        <li>れんさ（連鎖）するほど高得点</li>
+        <li>Swipe a candy, or tap two candies in turn</li>
+        <li>Longer chain reactions score more</li>
       </ul>
     </div>`,
-    actions: [{ label: 'とじる', value: 'close' }],
+    actions: [{ label: 'Got it', value: 'close' }],
   });
 }
 
@@ -309,7 +313,7 @@ function buildLevelGrid() {
       <span class="st">${[1, 2, 3].map((k) => `<i class="${k <= stars ? 'on' : ''}">★</i>`).join('')}</span>`;
     if (locked) {
       b.setAttribute('aria-disabled', 'true');
-      b.title = 'まえのステージをクリアするとひらきます';
+      b.title = 'Clear the previous level to unlock';
     }
     b.addEventListener('click', () => {
       sfx.unlock();
@@ -414,13 +418,13 @@ async function runCascade() {
       sfx.pop(phase.cascade, phase.count);
       if (phase.brokeIce && phase.brokeIce.length) sfx.ice();
       if (phase.created) sfx.special(3);
-      if (phase.cascade === 2) showCombo('れんさ！');
-      else if (phase.cascade === 3) showCombo('いい感じ！');
-      else if (phase.cascade >= 4) showCombo(`れんさ ×${phase.cascade}！`);
+      if (phase.cascade === 2) showCombo('Sweet!');
+      else if (phase.cascade === 3) showCombo('Delicious!');
+      else if (phase.cascade >= 4) showCombo(`Combo x${phase.cascade}!`);
       if (navigator.vibrate && phase.count >= 8) navigator.vibrate(12);
     } else if (phase.kind === 'shuffle') {
       sfx.shuffle();
-      showCombo('手がないのでまぜました');
+      showCombo('No moves — reshuffling');
     }
     updateHud();
     await wait(phase.ms);
@@ -450,26 +454,26 @@ async function finish(won) {
     const body = `
       <div class="star-row">${[1, 2, 3].map((k) => `<i class="${k <= stars ? 'on' : ''}">★</i>`).join('')}</div>
       <p class="big">${e.score}</p>
-      <p>のこり手数 ${e.movesLeft}${stars < 3 ? `<br><small>★3まで あと ${Math.max(0, LEVELS[game.level].stars[2] - e.score)} 点</small>` : ''}</p>`;
+      <p>${e.movesLeft} ${e.movesLeft === 1 ? 'move' : 'moves'} left${stars < 3 ? `<br><small>${Math.max(0, LEVELS[game.level].stars[2] - e.score)} more points for 3 stars</small>` : ''}</p>`;
     const actions = [];
-    if (hasNext) actions.push({ label: 'つぎのステージへ', value: 'next' });
-    actions.push({ label: 'もう一度', value: 'retry', ghost: true });
-    actions.push({ label: 'ステージ選択', value: 'home', ghost: true });
-    const pick = await dialog({ title: won ? 'クリア！' : '', body, actions });
+    if (hasNext) actions.push({ label: 'Next level', value: 'next' });
+    actions.push({ label: 'Replay', value: 'retry', ghost: true });
+    actions.push({ label: 'Levels', value: 'home', ghost: true });
+    const pick = await dialog({ title: 'Level complete!', body, actions });
     if (pick === 'next') startLevel(game.level + 1);
     else if (pick === 'retry') startLevel(game.level);
     else goHome();
   } else {
     sfx.lose();
     const remaining = e.goalState().filter((g) => !g.done).length;
-    const body = `<p>手数がなくなりました。</p>
-      <p><small>のこりの目標 ${remaining} 個 / スコア ${e.score}</small></p>`;
+    const body = `<p>You ran out of moves.</p>
+      <p><small>${remaining} ${remaining === 1 ? 'goal' : 'goals'} to go · score ${e.score}</small></p>`;
     const pick = await dialog({
-      title: 'あと少し…',
+      title: 'So close!',
       body,
       actions: [
-        { label: 'もう一度', value: 'retry' },
-        { label: 'ステージ選択', value: 'home', ghost: true },
+        { label: 'Try again', value: 'retry' },
+        { label: 'Levels', value: 'home', ghost: true },
       ],
     });
     if (pick === 'retry') startLevel(game.level);
@@ -554,11 +558,11 @@ function bindControls() {
   $('#btnRestart').addEventListener('click', async () => {
     sfx.tap();
     const pick = await dialog({
-      title: 'やりなおす？',
-      body: '<p>このステージを最初からやりなおします。</p>',
+      title: 'Restart level?',
+      body: '<p>You will start this level again from the beginning.</p>',
       actions: [
-        { label: 'やりなおす', value: 'yes' },
-        { label: 'つづける', value: 'no', ghost: true },
+        { label: 'Restart', value: 'yes' },
+        { label: 'Keep playing', value: 'no', ghost: true },
       ],
       dismissable: true,
     });
@@ -577,7 +581,7 @@ function bindControls() {
 
   const soundBtn = $('#btnSound');
   const syncSound = () => {
-    soundBtn.textContent = save.sound ? '♪ 音 ON' : '♪ 音 OFF';
+    soundBtn.textContent = save.sound ? '\u266a Sound on' : '\u266a Sound off';
     soundBtn.setAttribute('aria-pressed', String(!!save.sound));
     sfx.setEnabled(save.sound);
   };
@@ -591,11 +595,11 @@ function bindControls() {
 
   $('#btnReset').addEventListener('click', async () => {
     const pick = await dialog({
-      title: '記録を消す',
-      body: '<p>クリア状況と★をすべて消します。もとに戻せません。</p>',
+      title: 'Reset progress?',
+      body: '<p>This clears every star and locks the levels again. It cannot be undone.</p>',
       actions: [
-        { label: '消す', value: 'yes' },
-        { label: 'やめる', value: 'no', ghost: true },
+        { label: 'Reset', value: 'yes' },
+        { label: 'Cancel', value: 'no', ghost: true },
       ],
       dismissable: true,
     });

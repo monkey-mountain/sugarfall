@@ -1,29 +1,29 @@
 /*
- * Stage definitions for もちもちリンク / Mochi Mingle.
+ * Level definitions for Sugarfall.
  *
  * layout characters
  *   .  plain cell
  *   #  wall (no piece ever sits here)
- *   1  one layer of kinako dust
- *   2  two layers of kinako dust
- *   i  frozen piece (ice must be cracked before the piece can move)
- *   j  frozen piece sitting on one layer of dust
+ *   1  one layer of syrup
+ *   2  two layers of syrup
+ *   i  iced candy (the ice must be cracked before the candy can move)
+ *   j  iced candy sitting on one layer of syrup
  *
  * goals
  *   { kind: 'score',   amount }
  *   { kind: 'collect', type, amount }   type = flavour index
- *   { kind: 'dust', amount? }           sweep away N dust layers (all of them when
+ *   { kind: 'dust', amount? }           soak up N syrup layers (all of them when
  *                                       amount is left out)
- *   { kind: 'ice',  amount? }           crack N frozen pieces (all of them by default)
+ *   { kind: 'ice',  amount? }           crack N iced candies (all of them by default)
  *
- * Move counts and goal amounts were tuned against a simulated player
- * (see the balance notes in README).
+ * Move counts, goal amounts and star thresholds were tuned against a
+ * simulated player; see tools/balance.mjs and the README.
  */
 
 export const LEVELS = [
   {
-    name: 'はじめのひとくち',
-    hint: 'よこ・たてに3つそろえよう',
+    name: 'First Bite',
+    hint: 'Swap two candies to line up three',
     moves: 20,
     flavours: 5,
     goals: [{ kind: 'score', amount: 6000 }],
@@ -40,8 +40,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'きなこをはらう',
-    hint: 'きなこの上で消すと払える',
+    name: 'Sticky Floor',
+    hint: 'Clearing a candy soaks up the syrup under it',
     moves: 20,
     flavours: 5,
     goals: [{ kind: 'dust' }],
@@ -58,8 +58,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'さくらあつめ',
-    hint: '4つそろえると「ながし」ができる',
+    name: 'Berry Hunt',
+    hint: 'Match 4 in a row for a side Sparkler',
     moves: 24,
     flavours: 6,
     goals: [
@@ -79,8 +79,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'まるいおぼん',
-    hint: 'L字にそろえると「ぽんっ」',
+    name: 'Sugar Ring',
+    hint: 'Match in an L or T shape for a Bonbon Bomb',
     moves: 28,
     flavours: 6,
     goals: [{ kind: 'dust', amount: 30 }],
@@ -97,8 +97,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'こおりのつぶ',
-    hint: 'こおりは隣で消すとひびが入る',
+    name: 'Deep Freeze',
+    hint: 'Ice cracks when you clear the candy inside it',
     moves: 22,
     flavours: 5,
     goals: [{ kind: 'ice' }],
@@ -115,8 +115,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'ふたえのきなこ',
-    hint: '5つそろえると「ほしだいふく」',
+    name: 'Double Syrup',
+    hint: 'Match 5 for a Rainbow Drop',
     moves: 30,
     flavours: 6,
     goals: [{ kind: 'dust' }],
@@ -133,8 +133,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'ゆずのこみち',
-    hint: 'かべのまわりは落ちてこない',
+    name: 'Narrow Pass',
+    hint: 'Nothing falls into a walled-off gap',
     moves: 26,
     flavours: 6,
     goals: [
@@ -154,8 +154,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'ラムネのあわ',
-    hint: '特殊もちどうしを入れかえると大爆発',
+    name: 'Fizz Pools',
+    hint: 'Swap two specials together for a bigger blast',
     moves: 26,
     flavours: 6,
     goals: [
@@ -175,8 +175,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'おくのま',
-    hint: 'ほしだいふくは好きな味を全部消す',
+    name: 'The Vault',
+    hint: 'A Rainbow Drop clears every candy of one colour',
     moves: 32,
     flavours: 6,
     goals: [{ kind: 'dust', amount: 30 }, { kind: 'ice' }],
@@ -193,8 +193,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'たきのぼり',
-    hint: '縦に4つで「たきつぼ」ができる',
+    name: 'Twin Falls',
+    hint: 'Match 4 in a column for a down Sparkler',
     moves: 30,
     flavours: 6,
     goals: [
@@ -215,8 +215,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'つきよのうたげ',
-    hint: 'れんさで点数がぐんぐん伸びる',
+    name: 'Frost Festival',
+    hint: 'Chain reactions multiply your score',
     moves: 32,
     flavours: 6,
     goals: [{ kind: 'ice', amount: 9 }, { kind: 'score', amount: 8000 }],
@@ -233,8 +233,8 @@ export const LEVELS = [
     ],
   },
   {
-    name: 'もちもちのきわみ',
-    hint: 'さいごの一皿。全部きれいにしよう',
+    name: 'Sweet Summit',
+    hint: 'The last one. Clear it all.',
     moves: 38,
     flavours: 6,
     goals: [
